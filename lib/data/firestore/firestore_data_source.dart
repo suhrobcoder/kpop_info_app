@@ -19,4 +19,21 @@ class FirestoreDataSource {
             .get();
     return snapshot.docs.map((e) => Group.fromMap(e.data())).toList();
   }
+
+  Future<List<Group>> search({
+    required String search,
+    required String lastGroup,
+    required int pageSize,
+  }) async {
+    final query = firestore
+        .collection("groups")
+        .orderBy("name")
+        .where("name", isGreaterThanOrEqualTo: search)
+        .where("name", isLessThan: "${search}z");
+    final snapshot =
+        await (lastGroup.isNotEmpty ? query.startAfter([lastGroup]) : query)
+            .limit(pageSize)
+            .get();
+    return snapshot.docs.map((e) => Group.fromMap(e.data())).toList();
+  }
 }

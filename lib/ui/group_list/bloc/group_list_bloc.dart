@@ -15,13 +15,37 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
   final MainRepository repository;
 
   GroupListBloc(this.repository) : super(GroupListState.initial()) {
+    on<SearchEvent>((event, emit) {
+      state.pagingController.refresh();
+    });
+    on<OnClearEvent>((event, emit) {
+      state.searchController.clear();
+      state.pagingController.refresh();
+    });
     state.pagingController.addPageRequestListener((pageKey) {
-      _fetchGroups(pageKey);
+      if (state.searchController.text.isEmpty) {
+        _fetchGroups(pageKey);
+      } else {
+        _search(state.searchController.text, pageKey);
+      }
     });
   }
 
   void _fetchGroups(String key) async {
     final groups = await repository.getGroups(
+      lastGroup: key,
+      pageSize: _pageSize,
+    );
+    if (groups.length < _pageSize) {
+      state.pagingController.appendLastPage(groups);
+    } else {
+      state.pagingController.appendPage(groups, groups.last.name);
+    }
+  }
+
+  void _search(String query, String key) async {
+    final groups = await repository.search(
+      search: query,
       lastGroup: key,
       pageSize: _pageSize,
     );

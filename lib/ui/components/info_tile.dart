@@ -15,12 +15,14 @@ class InfoTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(name, style: const TextStyle(fontSize: 20)),
-          Text(
-            info,
-            style: const TextStyle(fontSize: 20),
+          Expanded(
+            child: Text(
+              info,
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.end,
+            ),
           ),
         ],
       ),

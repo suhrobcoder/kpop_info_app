@@ -18,38 +18,54 @@ class GroupListPage extends StatelessWidget {
         navigationBar: const CupertinoNavigationBar(
           middle: Text("Kpop Info"),
         ),
-        child: BlocBuilder<GroupListBloc, GroupListState>(
-          builder: (context, state) {
-            return Column(
-              children: [
-                Expanded(
-                  child: PagedListView(
-                    pagingController: state.pagingController,
-                    builderDelegate: PagedChildBuilderDelegate<Group>(
-                      itemBuilder: (context, group, index) {
-                        return CupertinoListTile.notched(
-                          title: Text(group.name),
-                          leading: CachedNetworkImage(
-                            imageUrl: group.image ?? "",
-                          ),
-                          onTap: () => Navigator.of(context).push(
-                            CupertinoPageRoute(
-                                title: group.name,
-                                builder: (context) =>
-                                    GroupDetailsPage(group: group)),
-                          ),
-                        );
-                      },
-                      firstPageErrorIndicatorBuilder: (_) =>
-                          const CupertinoActivityIndicator(),
-                      newPageProgressIndicatorBuilder: (_) =>
-                          const CupertinoActivityIndicator(),
+        child: SafeArea(
+          child: BlocBuilder<GroupListBloc, GroupListState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: CupertinoSearchTextField(
+                      controller: state.searchController,
+                      placeholder: "Search",
+                      onSubmitted: (value) =>
+                          context.read<GroupListBloc>().add(SearchEvent(value)),
+                      onSuffixTap: () =>
+                          context.read<GroupListBloc>().add(OnClearEvent()),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: PagedListView(
+                      pagingController: state.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Group>(
+                        itemBuilder: (context, group, index) {
+                          return CupertinoListTile.notched(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            title: Text(group.name),
+                            leading: CachedNetworkImage(
+                              imageUrl: group.image ?? "",
+                            ),
+                            onTap: () => Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                  title: group.name,
+                                  builder: (context) =>
+                                      GroupDetailsPage(group: group)),
+                            ),
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (_) =>
+                            const CupertinoActivityIndicator(),
+                        newPageProgressIndicatorBuilder: (_) =>
+                            const CupertinoActivityIndicator(),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

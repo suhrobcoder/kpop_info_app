@@ -14,4 +14,13 @@ class MainRepositoryImpl extends MainRepository {
       {required String lastGroup, required int pageSize}) {
     return dataSource.getGroups(lastGroup: lastGroup, pageSize: pageSize);
   }
+
+  @override
+  Future<List<Group>> search(
+      {required String search,
+      required String lastGroup,
+      required int pageSize}) {
+    return dataSource.search(
+        search: search, lastGroup: lastGroup, pageSize: pageSize);
+  }
 }
