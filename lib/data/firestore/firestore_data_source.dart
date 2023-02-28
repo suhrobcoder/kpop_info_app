@@ -27,9 +27,9 @@ class FirestoreDataSource {
   }) async {
     final query = firestore
         .collection("groups")
-        .orderBy("name")
-        .where("name", isGreaterThanOrEqualTo: search)
-        .where("name", isLessThan: "${search}z");
+        .orderBy("tag")
+        .where("tag", isGreaterThanOrEqualTo: search)
+        .where("tag", isLessThan: "${search}z");
     final snapshot =
         await (lastGroup.isNotEmpty ? query.startAfter([lastGroup]) : query)
             .limit(pageSize)
