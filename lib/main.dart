@@ -1,11 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/firebase_options.dart';
 import 'package:kpop_info/ui/group_list/group_list_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -19,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
+      debugShowCheckedModeBanner: false,
       title: 'KPop info',
       theme: CupertinoThemeData(
         primaryColor: Color(0xFFC93D41),
