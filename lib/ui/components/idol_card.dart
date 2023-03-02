@@ -12,7 +12,7 @@ class IdolCard extends StatelessWidget {
     return Column(
       children: [
         CachedNetworkImage(
-          imageUrl: idol.image,
+          imageUrl: idol.image ?? "",
           width: 72,
           height: 72,
         ),

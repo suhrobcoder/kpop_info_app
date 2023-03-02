@@ -4,13 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/ui/group_list/group_list_page.dart';
 import 'package:kpop_info/ui/home/bloc/home_bloc.dart';
+import 'package:kpop_info/ui/idol_list/idol_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   static const _tabs = [
     GroupListPage(),
-    Text("Idols"),
+    IdolListPage(),
   ];
 
   @override

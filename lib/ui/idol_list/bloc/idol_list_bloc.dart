@@ -1,20 +1,20 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kpop_info/domain/model/group.dart';
+import 'package:kpop_info/domain/model/idol.dart';
 import 'package:kpop_info/domain/repository/main_repository.dart';
 
-part 'group_list_event.dart';
-part 'group_list_state.dart';
+part 'idol_list_event.dart';
+part 'idol_list_state.dart';
 
 const _pageSize = 50;
 
 @injectable
-class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
+class IdolListBloc extends Bloc<IdolListEvent, IdolListState> {
   final MainRepository repository;
 
-  GroupListBloc(this.repository) : super(GroupListState.initial()) {
+  IdolListBloc(this.repository) : super(IdolListState.initial()) {
     on<SearchEvent>((event, emit) {
       state.pagingController.refresh();
     });
@@ -24,35 +24,35 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
     });
     state.pagingController.addPageRequestListener((pageKey) {
       if (state.searchController.text.isEmpty) {
-        _fetchGroups(pageKey);
+        _fetchIdols(pageKey);
       } else {
         _search(state.searchController.text, pageKey);
       }
     });
   }
 
-  void _fetchGroups(String key) async {
-    final groups = await repository.getGroups(
-      lastGroup: key,
+  void _fetchIdols(String key) async {
+    final idols = await repository.getIdols(
+      lastIdol: key,
       pageSize: _pageSize,
     );
-    if (groups.length < _pageSize) {
-      state.pagingController.appendLastPage(groups);
+    if (idols.length < _pageSize) {
+      state.pagingController.appendLastPage(idols);
     } else {
-      state.pagingController.appendPage(groups, groups.last.name);
+      state.pagingController.appendPage(idols, idols.last.name);
     }
   }
 
   void _search(String query, String key) async {
-    final groups = await repository.searchGroups(
+    final idols = await repository.searchIdols(
       search: query,
-      lastGroup: key,
+      lastIdol: key,
       pageSize: _pageSize,
     );
-    if (groups.length < _pageSize) {
-      state.pagingController.appendLastPage(groups);
+    if (idols.length < _pageSize) {
+      state.pagingController.appendLastPage(idols);
     } else {
-      state.pagingController.appendPage(groups, groups.last.name);
+      state.pagingController.appendPage(idols, idols.last.name);
     }
   }
 
