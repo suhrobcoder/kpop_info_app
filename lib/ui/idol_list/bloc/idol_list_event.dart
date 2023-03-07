@@ -10,3 +10,9 @@ class SearchEvent extends IdolListEvent {
 }
 
 class OnClearEvent extends IdolListEvent {}
+
+class ChangeFilterType extends IdolListEvent {
+  final FilterType filterType;
+
+  ChangeFilterType(this.filterType);
+}

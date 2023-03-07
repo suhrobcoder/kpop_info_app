@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:kpop_info/domain/model/group.dart';
 import 'package:kpop_info/domain/repository/main_repository.dart';
 
+import '../../../util/filter_type.dart';
+
 part 'group_list_event.dart';
 part 'group_list_state.dart';
 
@@ -22,6 +24,10 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
       state.searchController.clear();
       state.pagingController.refresh();
     });
+    on<ChangeFilterType>((event, emit) {
+      emit(state.copyWith(filterType: event.filterType));
+      state.pagingController.refresh();
+    });
     state.pagingController.addPageRequestListener((pageKey) {
       if (state.searchController.text.isEmpty) {
         _fetchGroups(pageKey);
@@ -34,6 +40,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
   void _fetchGroups(String key) async {
     final groups = await repository.getGroups(
       lastGroup: key,
+      filterType: state.filterType,
       pageSize: _pageSize,
     );
     if (groups.length < _pageSize) {
@@ -47,6 +54,7 @@ class GroupListBloc extends Bloc<GroupListEvent, GroupListState> {
     final groups = await repository.searchGroups(
       search: query,
       lastGroup: key,
+      filterType: state.filterType,
       pageSize: _pageSize,
     );
     if (groups.length < _pageSize) {

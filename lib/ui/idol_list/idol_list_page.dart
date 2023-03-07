@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/domain/model/idol.dart';
+import 'package:kpop_info/ui/idol_details/idol_details_page.dart';
 import 'package:kpop_info/ui/idol_list/bloc/idol_list_bloc.dart';
+import 'package:kpop_info/util/filter_type.dart';
 
 class IdolListPage extends StatelessWidget {
   const IdolListPage({super.key});
@@ -35,6 +37,21 @@ class IdolListPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CupertinoSegmentedControl(
+                      children: const {
+                        FilterType.all: Text("All"),
+                        FilterType.male: Text("Male"),
+                        FilterType.female: Text("Female"),
+                      },
+                      groupValue: state.filterType,
+                      onValueChanged: (type) => context
+                          .read<IdolListBloc>()
+                          .add(ChangeFilterType(type)),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Expanded(
                     child: PagedListView(
                       pagingController: state.pagingController,
@@ -46,7 +63,12 @@ class IdolListPage extends StatelessWidget {
                             leading: CachedNetworkImage(
                               imageUrl: idol.image ?? "",
                             ),
-                            onTap: () {},
+                            onTap: () => Navigator.of(context).push(
+                              CupertinoPageRoute(
+                                builder: (_) => IdolDetailsPage(idol: idol),
+                                title: idol.name,
+                              ),
+                            ),
                           );
                         },
                         firstPageProgressIndicatorBuilder: (_) =>

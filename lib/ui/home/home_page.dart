@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/ui/group_list/group_list_page.dart';
@@ -24,11 +23,11 @@ class HomePage extends StatelessWidget {
             tabBar: CupertinoTabBar(
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.group_rounded),
+                  icon: Icon(CupertinoIcons.group_solid),
                   label: "Groups",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_rounded),
+                  icon: Icon(CupertinoIcons.person_alt),
                   label: "Idols",
                 ),
               ],

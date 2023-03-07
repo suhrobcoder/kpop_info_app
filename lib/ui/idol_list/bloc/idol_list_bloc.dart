@@ -4,6 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
 import 'package:kpop_info/domain/model/idol.dart';
 import 'package:kpop_info/domain/repository/main_repository.dart';
+import 'package:kpop_info/util/filter_type.dart';
 
 part 'idol_list_event.dart';
 part 'idol_list_state.dart';
@@ -22,6 +23,10 @@ class IdolListBloc extends Bloc<IdolListEvent, IdolListState> {
       state.searchController.clear();
       state.pagingController.refresh();
     });
+    on<ChangeFilterType>((event, emit) {
+      emit(state.copyWith(filterType: event.filterType));
+      state.pagingController.refresh();
+    });
     state.pagingController.addPageRequestListener((pageKey) {
       if (state.searchController.text.isEmpty) {
         _fetchIdols(pageKey);
@@ -34,6 +39,7 @@ class IdolListBloc extends Bloc<IdolListEvent, IdolListState> {
   void _fetchIdols(String key) async {
     final idols = await repository.getIdols(
       lastIdol: key,
+      filterType: state.filterType,
       pageSize: _pageSize,
     );
     if (idols.length < _pageSize) {
@@ -47,6 +53,7 @@ class IdolListBloc extends Bloc<IdolListEvent, IdolListState> {
     final idols = await repository.searchIdols(
       search: query,
       lastIdol: key,
+      filterType: state.filterType,
       pageSize: _pageSize,
     );
     if (idols.length < _pageSize) {

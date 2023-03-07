@@ -6,6 +6,7 @@ import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/domain/model/group.dart';
 import 'package:kpop_info/ui/group_details/group_details_page.dart';
 import 'package:kpop_info/ui/group_list/bloc/group_list_bloc.dart';
+import 'package:kpop_info/util/filter_type.dart';
 
 class GroupListPage extends StatelessWidget {
   const GroupListPage({super.key});
@@ -33,6 +34,21 @@ class GroupListPage extends StatelessWidget {
                           context.read<GroupListBloc>().add(SearchEvent(value)),
                       onSuffixTap: () =>
                           context.read<GroupListBloc>().add(OnClearEvent()),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CupertinoSegmentedControl(
+                      children: const {
+                        FilterType.all: Text("All"),
+                        FilterType.male: Text("Male"),
+                        FilterType.female: Text("Female"),
+                      },
+                      groupValue: state.filterType,
+                      onValueChanged: (type) => context
+                          .read<GroupListBloc>()
+                          .add(ChangeFilterType(type)),
                     ),
                   ),
                   const SizedBox(height: 8),

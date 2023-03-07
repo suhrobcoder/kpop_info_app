@@ -28,13 +28,15 @@ class Idol {
       name: map["name"],
       image: map["image"],
       nativeNames:
-          (map["native_name"] as List).map((e) => e as String).toList(),
-      info: (map["info"] as Map<String, dynamic>)
-          .map((key, value) => MapEntry(key, value as String)),
+          (map["native_name"] as List?)?.map((e) => e as String).toList() ?? [],
+      info: (map["info"] as Map<String, dynamic>?)
+              ?.map((key, value) => MapEntry(key, value as String)) ??
+          {},
       group: map["group"],
-      description: map["description"],
+      description: (map["description"] as String?)
+          ?.replaceAll("https://kpopping.com", ""),
       signature: map["signature"],
-      facts: (map["facts"] as List).map((e) => e as String).toList(),
+      facts: (map["facts"] as List?)?.map((e) => e as String).toList() ?? [],
       gender: map["gender"] == "male" ? Gender.male : Gender.female,
     );
   }
