@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoApp(
       debugShowCheckedModeBanner: false,
-      title: 'KPop info',
+      title: 'Kpop Xplore',
       theme: CupertinoThemeData(
         primaryColor: Color(0xFFC93D41),
       ),

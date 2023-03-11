@@ -17,7 +17,7 @@ class IdolListPage extends StatelessWidget {
       create: (context) => getIt<IdolListBloc>(),
       child: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text("Kpop Info"),
+          middle: Text("Kpop Xplore"),
         ),
         child: SafeArea(
           child: BlocBuilder<IdolListBloc, IdolListState>(

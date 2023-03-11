@@ -17,7 +17,7 @@ class GroupListPage extends StatelessWidget {
       create: (context) => getIt<GroupListBloc>(),
       child: CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text("Kpop Info"),
+          middle: Text("Kpop Xplore"),
         ),
         child: SafeArea(
           child: BlocBuilder<GroupListBloc, GroupListState>(
