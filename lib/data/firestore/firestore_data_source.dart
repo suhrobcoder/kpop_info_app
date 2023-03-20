@@ -69,7 +69,6 @@ class FirestoreDataSource {
     required FilterType filterType,
     required int pageSize,
   }) async {
-    print("Searching $search");
     var query = firestore
         .collection("idols")
         .orderBy("name_tag")
@@ -89,11 +88,44 @@ class FirestoreDataSource {
     required String name,
     required String group,
   }) async {
-    var snapshot = await firestore
+    final snapshot = await firestore
         .collection("idols")
         .where("name", isEqualTo: name)
         .where("group", isEqualTo: group)
         .get();
     return Idol.fromMap(snapshot.docs[0].data());
+  }
+
+  Future<QueryDocumentSnapshot<Map<String, dynamic>>> getGroupByName({
+    required String name,
+  }) async {
+    final snapshot = await firestore
+        .collection("groups")
+        .where("name", isEqualTo: name)
+        .get();
+    return snapshot.docs[0];
+  }
+
+  void setGroupId({
+    required String docId,
+    required String spotifyId,
+  }) async {
+    await firestore
+        .collection("groups")
+        .doc(docId)
+        .update({"spotify_id": spotifyId});
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> listenForTokenChanges() =>
+      firestore.collection("keys").doc("spotify").snapshots();
+
+  void setTokenAndExpireDate({
+    required String token,
+    required DateTime expireDate,
+  }) async {
+    await firestore
+        .collection("keys")
+        .doc("spotify")
+        .update({"token": token, "expire_date": expireDate});
   }
 }
