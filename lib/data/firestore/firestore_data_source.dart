@@ -92,7 +92,7 @@ class FirestoreDataSource {
     var snapshot = await firestore
         .collection("idols")
         .where("name", isEqualTo: name)
-        .where("group", isEqualTo: group)
+        .where("groups", arrayContains: group)
         .get();
     return Idol.fromMap(snapshot.docs[0].data());
   }

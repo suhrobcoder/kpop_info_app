@@ -6,6 +6,7 @@ class Idol {
   final List<String> nativeNames;
   final Map<String, String> info;
   final String? group;
+  final List<String> groups;
   final String? description;
   final String? signature;
   final List<String> facts;
@@ -17,6 +18,7 @@ class Idol {
     required this.nativeNames,
     required this.info,
     required this.group,
+    required this.groups,
     required this.description,
     required this.signature,
     required this.facts,
@@ -33,6 +35,7 @@ class Idol {
               ?.map((key, value) => MapEntry(key, value as String)) ??
           {},
       group: map["group"],
+      groups: (map["groups"] as List?)?.map((e) => e as String).toList() ?? [],
       description: (map["description"] as String?)
           ?.replaceAll("https://kpopping.com", ""),
       signature: map["signature"],
