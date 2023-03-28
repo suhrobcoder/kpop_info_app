@@ -16,10 +16,13 @@ import 'package:kpop_info/data/firestore/firestore_data_source.dart' as _i5;
 import 'package:kpop_info/data/repository/discography_repository_impl.dart'
     as _i15;
 import 'package:kpop_info/data/repository/main_repository_impl.dart' as _i8;
-import 'package:kpop_info/di/app_module.dart' as _i16;
+import 'package:kpop_info/di/app_module.dart' as _i18;
+import 'package:kpop_info/domain/model/group.dart' as _i17;
 import 'package:kpop_info/domain/repository/discography_repository.dart'
     as _i14;
 import 'package:kpop_info/domain/repository/main_repository.dart' as _i7;
+import 'package:kpop_info/ui/group_discography/bloc/group_discography_bloc.dart'
+    as _i16;
 import 'package:kpop_info/ui/group_list/bloc/group_list_bloc.dart' as _i11;
 import 'package:kpop_info/ui/home/bloc/home_bloc.dart' as _i6;
 import 'package:kpop_info/ui/idol_list/bloc/idol_list_bloc.dart' as _i12;
@@ -83,8 +86,16 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.FirestoreDataSource>(),
           gh<_i13.SpotifyApi>(),
         ));
+    gh.factoryParam<_i16.GroupDiscographyBloc, _i17.Group, dynamic>((
+      group,
+      _,
+    ) =>
+        _i16.GroupDiscographyBloc(
+          gh<_i14.DiscographyRepository>(),
+          group,
+        ));
     return this;
   }
 }
 
-class _$AppModule extends _i16.AppModule {}
+class _$AppModule extends _i18.AppModule {}
