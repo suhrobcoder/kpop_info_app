@@ -19,10 +19,13 @@ class IdolCard extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       child: Column(
         children: [
-          CachedNetworkImage(
-            imageUrl: idol.image ?? "",
-            width: 72,
-            height: 72,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: CachedNetworkImage(
+              imageUrl: idol.image ?? "",
+              width: 64,
+              height: 64,
+            ),
           ),
           Text(idol.name),
         ],

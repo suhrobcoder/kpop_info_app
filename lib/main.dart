@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/firebase_options.dart';
+import 'package:kpop_info/test_page.dart';
 import 'package:kpop_info/ui/home/home_page.dart';
 
 void main() async {

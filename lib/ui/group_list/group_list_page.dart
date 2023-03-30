@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/domain/model/group.dart';
+import 'package:kpop_info/ui/components/group_card.dart';
 import 'package:kpop_info/ui/group_details/group_details_page.dart';
 import 'package:kpop_info/ui/group_list/bloc/group_list_bloc.dart';
 import 'package:kpop_info/util/filter_type.dart';
@@ -37,9 +37,10 @@ class GroupListPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  SizedBox(
+                  Container(
                     width: double.infinity,
-                    child: CupertinoSegmentedControl(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: CupertinoSlidingSegmentedControl(
                       children: const {
                         FilterType.all: Text("All"),
                         FilterType.male: Text("Male"),
@@ -53,17 +54,22 @@ class GroupListPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Expanded(
-                    child: PagedListView(
+                    child: PagedGridView(
                       pagingController: state.pagingController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 1.3,
+                      ),
                       builderDelegate: PagedChildBuilderDelegate<Group>(
                         itemBuilder: (context, group, index) {
-                          return CupertinoListTile.notched(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            title: Text(group.name),
-                            leading: CachedNetworkImage(
-                              imageUrl: group.image ?? "",
-                            ),
-                            onTap: () => Navigator.of(context).push(
+                          return GroupCard(
+                            imageUrl: group.image ?? "",
+                            title: group.name,
+                            onPressed: () => Navigator.of(context).push(
                               CupertinoPageRoute(
                                   title: group.name,
                                   builder: (context) =>

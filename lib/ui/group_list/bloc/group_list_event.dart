@@ -12,7 +12,7 @@ class SearchEvent extends GroupListEvent {
 class OnClearEvent extends GroupListEvent {}
 
 class ChangeFilterType extends GroupListEvent {
-  final FilterType filterType;
+  final FilterType? filterType;
 
   ChangeFilterType(this.filterType);
 }

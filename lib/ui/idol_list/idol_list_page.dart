@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:kpop_info/di/init_get_it.dart';
 import 'package:kpop_info/domain/model/idol.dart';
+import 'package:kpop_info/ui/components/idol_card.dart';
 import 'package:kpop_info/ui/idol_details/idol_details_page.dart';
 import 'package:kpop_info/ui/idol_list/bloc/idol_list_bloc.dart';
 import 'package:kpop_info/util/filter_type.dart';
@@ -53,21 +54,47 @@ class IdolListPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Expanded(
-                    child: PagedListView(
+                    child: PagedGridView(
                       pagingController: state.pagingController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 150,
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        childAspectRatio: 1,
+                      ),
                       builderDelegate: PagedChildBuilderDelegate<Idol>(
                         itemBuilder: (context, idol, index) {
-                          return CupertinoListTile.notched(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            title: Text(idol.name),
-                            leading: CachedNetworkImage(
-                              imageUrl: idol.image ?? "",
-                            ),
-                            onTap: () => Navigator.of(context).push(
+                          return CupertinoButton(
+                            onPressed: () => Navigator.of(context).push(
                               CupertinoPageRoute(
                                 builder: (_) => IdolDetailsPage(idol: idol),
                                 title: idol.name,
                               ),
+                            ),
+                            padding: const EdgeInsets.all(0),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(36),
+                                  child: CachedNetworkImage(
+                                    imageUrl: idol.image ?? "",
+                                    width: 72,
+                                    height: 72,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  idol.name,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                           );
                         },
