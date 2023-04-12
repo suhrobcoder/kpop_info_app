@@ -7,6 +7,7 @@ class Album {
   final String id;
   final String name;
   @_ImageConverter()
+  @JsonKey(name: "images")
   final String? image;
   final String releaseDate;
   final int totalTracks;
@@ -26,6 +27,17 @@ class Album {
   factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
 
   Map<String, dynamic> toJson() => _$AlbumToJson(this);
+
+  @override
+  bool operator ==(other) {
+    if (other is Album) {
+      return name == other.name;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 class _ImageConverter extends JsonConverter<String?, List<dynamic>> {

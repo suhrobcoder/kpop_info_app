@@ -8,46 +8,24 @@ abstract class AppModule {
   @singleton
   FirebaseFirestore provideFirestore() => FirebaseFirestore.instance;
 
-  @dev
   @singleton
   @Named("spotify_api")
-  Dio dioDevSpotifyApi(SpotifyAuthInterceptor authInterceptor) => Dio(
+  Dio dioSpotifyApi(SpotifyAuthInterceptor authInterceptor) => Dio(
         BaseOptions(
           validateStatus: ((status) => true),
         ),
       )..interceptors.addAll([
-          LogInterceptor(),
+          LogInterceptor(responseBody: true),
           authInterceptor,
         ]);
 
-  @prod
-  @singleton
-  @Named("spotify_api")
-  Dio dioProdSpotifyApi(SpotifyAuthInterceptor authInterceptor) => Dio(
-        BaseOptions(
-          validateStatus: ((status) => true),
-        ),
-      )..interceptors.addAll([
-          authInterceptor,
-        ]);
-
-  @dev
   @singleton
   @Named("spotify_auth_api")
-  Dio dioDevSpotifyAuthApi() => Dio(
+  Dio dioSpotifyAuthApi() => Dio(
         BaseOptions(
           validateStatus: ((status) => true),
         ),
       )..interceptors.addAll([
           LogInterceptor(requestBody: true, responseBody: true),
         ]);
-
-  @prod
-  @singleton
-  @Named("spotify_auth_api")
-  Dio dioProdSpotifyAuthApi() => Dio(
-        BaseOptions(
-          validateStatus: ((status) => true),
-        ),
-      );
 }

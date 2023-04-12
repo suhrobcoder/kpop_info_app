@@ -10,7 +10,7 @@ Album _$AlbumFromJson(Map<String, dynamic> json) => Album(
       id: json['id'] as String,
       name: json['name'] as String,
       image: _$JsonConverterFromJson<List<dynamic>, String?>(
-          json['image'], const _ImageConverter().fromJson),
+          json['images'], const _ImageConverter().fromJson),
       releaseDate: json['release_date'] as String,
       totalTracks: json['total_tracks'] as int,
       type: json['type'] as String,
@@ -20,7 +20,7 @@ Album _$AlbumFromJson(Map<String, dynamic> json) => Album(
 Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'image': const _ImageConverter().toJson(instance.image),
+      'images': const _ImageConverter().toJson(instance.image),
       'release_date': instance.releaseDate,
       'total_tracks': instance.totalTracks,
       'type': instance.type,

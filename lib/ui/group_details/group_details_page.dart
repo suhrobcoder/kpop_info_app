@@ -21,6 +21,7 @@ class GroupDetailsPage extends StatelessWidget {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         trailing: CupertinoButton(
+          padding: const EdgeInsets.all(0),
           child: const Icon(CupertinoIcons.double_music_note),
           onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
             builder: (context) => GroupDiscographyPage(group: group),

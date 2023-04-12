@@ -16,10 +16,13 @@ class GroupDiscographyBloc
 
   GroupDiscographyBloc(this.repository, @factoryParam this.group)
       : super(GroupDiscographyLoadingState()) {
-    on<LoadEvent>((event, emit) {
-      load();
+    on<_AlbumsLoadedEvent>((event, emit) {
+      emit(GroupDiscographySuccessState(event.albums.toSet().toList()));
     });
-    add(LoadEvent());
+    on<_ErrorEvent>((event, emit) {
+      emit(GroupDiscographyErrorState(event.message));
+    });
+    load();
   }
 
   void load() async {

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dartz/dartz.dart';
 import 'package:kpop_info/data/api/response/album.dart';
+import 'package:kpop_info/data/api/response/track.dart';
 import 'package:kpop_info/data/api/spotify_api.dart';
 import 'package:kpop_info/data/firestore/firestore_data_source.dart';
 import 'package:kpop_info/domain/model/group.dart';
@@ -39,5 +40,18 @@ class DiscographyRepositoryImpl extends DiscographyRepository {
     final result =
         await api.search(query: artistName, type: "artist", limit: 1);
     return result.artists[0].id;
+  }
+
+  @override
+  Future<Either<List<Track>, String>> getAlbumTracks(String albumId) async {
+    try {
+      final result = await api.getAlbumTracks(albumId: albumId);
+      return left(result.items);
+    } catch (error) {
+      if (error is DioError) {
+        return right(handleDioError(error));
+      }
+      return right("Something went wrong");
+    }
   }
 }
