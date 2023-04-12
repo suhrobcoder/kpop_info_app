@@ -9,6 +9,7 @@ class Group {
   final String? logo;
   final String? lightstick;
   final List<Idol> members;
+  final String? spotifyId;
 
   Group({
     required this.name,
@@ -19,6 +20,7 @@ class Group {
     this.logo,
     this.lightstick,
     this.members = const [],
+    this.spotifyId,
   });
 
   factory Group.fromMap(Map<String, dynamic> map) {
@@ -33,6 +35,7 @@ class Group {
       logo: map["logo"],
       lightstick: map["lightstick"],
       members: (map["members"] as List).map((e) => Idol.fromMap(e)).toList(),
+      spotifyId: map["spotify_id"],
     );
   }
 }

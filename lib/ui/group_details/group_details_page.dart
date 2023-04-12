@@ -6,6 +6,7 @@ import 'package:kpop_info/domain/model/group.dart';
 import 'package:kpop_info/domain/repository/main_repository.dart';
 import 'package:kpop_info/ui/components/idol_card.dart';
 import 'package:kpop_info/ui/components/info_tile.dart';
+import 'package:kpop_info/ui/group_discography/group_discography_page.dart';
 import 'package:kpop_info/ui/idol_details/idol_details_page.dart';
 import 'package:kpop_info/util/list_ext.dart';
 
@@ -20,7 +21,16 @@ class GroupDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(middle: Text(group.name)),
+      navigationBar: CupertinoNavigationBar(
+        trailing: CupertinoButton(
+          padding: const EdgeInsets.all(0),
+          child: const Icon(CupertinoIcons.double_music_note),
+          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+            builder: (context) => GroupDiscographyPage(group: group),
+            title: "Discography",
+          )),
+        ),
+      ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(

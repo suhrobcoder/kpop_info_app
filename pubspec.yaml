@@ -19,6 +19,10 @@ dependencies:
   flutter_bloc: ^8.1.2
   infinite_scroll_pagination: ^3.2.0
   animations: ^2.0.7
+  retrofit: ^4.0.1
+  dio: ^5.0.2
+  json_annotation: ^4.8.0
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +33,9 @@ dev_dependencies:
   flutter_launcher_icons: ^0.12.0
   rename: ^2.1.1
   flutter_native_splash: ^2.2.19
+  json_serializable: ^6.6.1
+  retrofit_generator: ^6.0.0+1
+  dartz: ^0.10.1
 
 flutter:
   uses-material-design: true
