@@ -25,6 +25,7 @@ class IdolCard extends StatelessWidget {
               imageUrl: idol.image ?? "",
               width: 64,
               height: 64,
+              fit: BoxFit.cover,
             ),
           ),
           Text(idol.name),
